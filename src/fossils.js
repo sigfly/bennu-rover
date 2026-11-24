@@ -94,7 +94,9 @@ export function createFossilHunt(scene,ground,groundAt,camera,canvas,ui){
  const found=new Set(), objects=[], picker=new THREE.Raycaster();picker.firstHitOnly=true;
  const mat=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.97,metalness:0,side:THREE.DoubleSide});
  const green=new THREE.MeshStandardMaterial({color:0x3de763,emissive:0x126525,emissiveIntensity:.52,roughness:.9,side:THREE.DoubleSide});
- let enabled=false, initialized=false, down=null;
+ const yellow=new THREE.MeshBasicMaterial({color:0xffff00,side:THREE.DoubleSide,toneMapped:false});
+ let enabled=false, initialized=false, exposed=false, down=null;
+ function appearance(){for(const obj of objects)obj.material=found.has(obj.userData.index)?green:exposed?yellow:mat;ui.expose.textContent=exposed?'Hide exposure':'Expose';ui.expose.setAttribute('aria-pressed',String(exposed));}
  function build(){
   // Fibonacci distribution, rotated so the first specimen is near the initial orbit center.
   const golden=Math.PI*(3-Math.sqrt(5)), y0=1-1/DINOSAURS.length;
@@ -127,8 +129,9 @@ export function createFossilHunt(scene,ground,groundAt,camera,canvas,ui){
  canvas.addEventListener('pointerdown',e=>{if(e.button===0)down={x:e.clientX,y:e.clientY,id:e.pointerId};});
  canvas.addEventListener('pointerup',e=>{if(down&&down.id===e.pointerId&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<6)pick(e);down=null;});
  canvas.addEventListener('pointercancel',()=>{down=null;});
- ui.toggle.addEventListener('change',()=>{enabled=ui.toggle.checked;if(enabled&&!initialized)build();root.visible=enabled;ui.panel.hidden=!enabled;update();});
- ui.reset.addEventListener('click',()=>{found.clear();for(const obj of objects)obj.material=mat;ui.list.replaceChildren();update();if(ui.finale.open)ui.finale.close();});
+ ui.toggle.addEventListener('change',()=>{enabled=ui.toggle.checked;if(enabled&&!initialized)build();root.visible=enabled;ui.panel.hidden=!enabled;appearance();update();});
+ ui.expose.addEventListener('click',()=>{exposed=!exposed;appearance();});
+ ui.reset.addEventListener('click',()=>{found.clear();appearance();ui.list.replaceChildren();update();if(ui.finale.open)ui.finale.close();});
  ui.close.addEventListener('click',()=>ui.finale.close());
  update();
  return {root,objects,found,pick,discover};
