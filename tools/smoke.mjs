@@ -12,6 +12,13 @@ try{
  await page.waitForFunction(()=>document.querySelector('#radius').textContent!=='—');
  assert.equal(await page.locator('button[data-mode].active').getAttribute('data-mode'),'orbit');
  const radius=parseFloat(await page.locator('#radius').textContent());assert.ok(radius>170&&radius<310,`Unexpected radius ${radius}`);
+ await page.locator('#fossilToggle').check();await page.waitForFunction(()=>document.querySelector('#fossilPanel').hidden===false,{},{timeout:180000});assert.equal(await page.locator('#fossilCounter').textContent(),'0/20 found');
+ // First Fibonacci-distributed quarry is close to the initial orbit center.
+ for(const [x,y] of [[480,320],[480,324],[480,316],[476,324],[484,324],[476,320],[484,320]]){await page.mouse.click(x,y);if((await page.locator('#fossilCounter').textContent())!=='0/20 found')break;}
+ assert.equal(await page.locator('#fossilCounter').textContent(),'1/20 found');
+ await page.locator('#fossilToggle').uncheck();assert.equal(await page.locator('#fossilPanel').isVisible(),false);
+ await page.locator('#fossilToggle').check();assert.equal(await page.locator('#fossilCounter').textContent(),'1/20 found');
+ await page.locator('#fossilReset').click();assert.equal(await page.locator('#fossilCounter').textContent(),'0/20 found');await page.locator('#fossilToggle').uncheck();
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.locator('[data-mode=chase]').click();
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
  await page.waitForFunction(()=>document.querySelector('#lat').textContent.startsWith('15.0000'));

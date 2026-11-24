@@ -13,6 +13,14 @@ Open [Actions → Build offline rover](https://github.com/sigfly/bennu-rover/act
 * Teleport to latitude/longitude or the approximate Nightingale and Osprey sample sites. The whole asteroid is reachable by teleportation; some boulders and slopes are too steep to drive over.
 * Adjust illumination, speed limit or the photographic texture. Switch photos off to inspect the actual shape independently of imaging.
 
+## Optional expedition: dinosaur fossil hunt
+
+Enable **Dinosaur fossil hunt** in the expedition panel. Twenty fictional, life-scale excavations are distributed over Bennu using a Fibonacci sphere. Rotate the asteroid or drive to a site, click the weathered bones to catalogue the specimen, and watch it turn green. The counter and collection list persist when you toggle the mode off and back on; reset starts a new case. Find all twenty to unlock a black-and-white 1950s detective-film title card.
+
+The specimens are original procedural reconstructions, not 3D scans, archaeological measurements, or real fossils on Bennu. Articulated and partly dispersed bones, open skull fenestrae, individually shaped ribs, flared limb-bone ends and vertebral chains are inspired by excavation imagery. They are flattened into fossil-bed poses and conformed to the actual NASA shape via sub-metre terrain sampling; all skeletal geometry is scaled to the approximate adult body length (5.5–26 m) listed in the Natural History Museum's Dino Directory. Some taxa have incomplete fossil records; proportions and inferred bones are illustrative rather than scientific reconstructions.
+
+References: [Smithsonian Carnegie Quarry excavation photograph](https://www.si.edu/object/close-skeleton-dinosaur-national-monument-quarry%3Asiris_arc_367764), [USGS Dinosaur Quarry photo](https://www.usgs.gov/media/images/dinosaur-national-monument-dinosaur-quarry-1), [NPS Quarry Exhibit Hall](https://www.nps.gov/dino/planyourvisit/quarry-exhibit-hall.htm), [NPS 2025 excavation](https://www.nps.gov/dino/learn/news/parkinglotfossilsexcavated.htm), and [Natural History Museum Dino Directory](https://www.nhm.ac.uk/discover/dino-directory.html). Individual taxon reference pages and measured lengths are listed in [FOSSILS.md](FOSSILS.md).
+
 ## Data and editions
 
 | Edition | Source shape | Embedded imagery | Typical use |
