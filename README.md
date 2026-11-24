@@ -4,7 +4,7 @@ A full-surface, standalone WebGL 2 driving explorer for asteroid (101955) Bennu,
 
 ## Download
 
-Open [Actions → Build offline rover](https://github.com/sigfly/bennu-rover/actions/workflows/build.yml), choose a successful run, and download the `bennu-rover-standard-8192` artifact. Unzip it and open `index.html` directly in a recent desktop browser. Once built, the HTML needs no server, dependencies, installation or internet connection. GitHub may require sign-in to download artifacts.
+Open [Actions → Build offline rover](https://github.com/sigfly/bennu-rover/actions/workflows/build.yml), choose a run, and download `bennu-rover-standard-8192` or `bennu-rover-ultra-16384`. Both are built automatically. Unzip the artifact and open `index.html` directly in a recent desktop browser. Once built, the HTML needs no server, dependencies, installation or internet connection. GitHub may require sign-in to download artifacts.
 
 ## Drive
 
@@ -24,7 +24,7 @@ The source global OCAMS PolyCam panchromatic mosaic has 31,417 × 15,709 pixels 
 
 NASA's original indexed triangles are preserved; glTF's axis transform is applied and coordinates are converted from kilometres to metres. Collision queries use a bounding volume hierarchy and cast radial rays to the outermost measured surface. The algorithm rejects abrupt steps and steep slopes; this is a surface-following rover game, **not an engineering-grade multibody simulator**. Bennu's real microgravity is far too weak for normal Earth-like driving, so the fictional rover adheres to the surface. Slopes and radii are approximate local mesh measurements; angle is relative to the radial direction, not local effective gravity. Overhangs and caves cannot be explored by this radial model. The rover and starfield are illustrative.
 
-The standard file is approximately 101 MiB, with significantly higher runtime memory use. Ultra is experimental and may require several GB of RAM and VRAM; reduce image width if the GPU cannot accommodate the texture. GPU texture-size limits are detected and the loaded width is displayed. The source is intentionally not checked into Git: the build downloads the original NASA assets and packages them into HTML.
+The standard file is approximately 101 MiB and ultra approximately 493 MiB, with significantly higher runtime memory use. Ultra is experimental and may require several GB of RAM and VRAM; reduce image width if the GPU cannot accommodate the texture. GPU texture-size limits are detected and the loaded width is displayed. The large generated HTML and raw NASA data are intentionally not checked into Git: the build downloads the original assets and packages them into HTML.
 
 ## Reproduce locally
 

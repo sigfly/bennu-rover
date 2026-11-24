@@ -4,23 +4,20 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
-    inputs:
-      edition:
-        description: Measured mesh edition
-        type: choice
-        options: [standard, ultra]
-        default: standard
-      texture:
-        description: Embedded image width
-        type: choice
-        options: ['4096', '8192', '16384']
-        default: '8192'
 permissions:
   contents: read
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - edition: standard
+            texture: '8192'
+          - edition: ultra
+            texture: '16384'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -36,17 +33,17 @@ jobs:
       - run: node tools/bundle.mjs
       - name: Assemble standalone HTML
         env:
-          EDITION: ${{ inputs.edition || 'standard' }}
-          TEXTURE: ${{ inputs.texture || '8192' }}
+          EDITION: ${{ matrix.edition }}
+          TEXTURE: ${{ matrix.texture }}
         run: python tools/build.py --edition "$EDITION" --texture "$TEXTURE"
       - uses: actions/upload-artifact@v4
         with:
-          name: bennu-rover-${{ inputs.edition || 'standard' }}-${{ inputs.texture || '8192' }}
+          name: bennu-rover-${{ matrix.edition }}-${{ matrix.texture }}
           path: dist/index.html
           compression-level: 1
       - name: Install browser
-        if: ${{ inputs.edition != 'ultra' }}
+        if: ${{ matrix.edition != 'ultra' }}
         run: npx playwright install --with-deps chromium
       - name: Offline browser smoke test
-        if: ${{ inputs.edition != 'ultra' }}
+        if: ${{ matrix.edition != 'ultra' }}
         run: node tools/smoke.mjs
