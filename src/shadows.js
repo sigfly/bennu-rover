@@ -13,7 +13,7 @@ export function createSunShadows(renderer,light,scene,qualityEl,statsEl,terrainM
  light.shadow.autoUpdate=false;light.shadow.intensity=1;
  scene.add(light.target);
  const lastPos=new THREE.Vector3(1e9,1e9,1e9),lastRot=new THREE.Quaternion(),lastSun=new THREE.Vector3();
- let profileKey='',lastRefresh=-Infinity,revision=0,previousVisibility='',lastMode='';
+ let lastTruckPose=-1,profileKey='',lastRefresh=-Infinity,revision=0,previousVisibility='',lastMode='';
  const target=new THREE.Vector3();
  function configure(p){
   renderer.shadowMap.enabled=p.enabled;light.castShadow=p.enabled;
@@ -35,7 +35,7 @@ export function createSunShadows(renderer,light,scene,qualityEl,statsEl,terrainM
   previousVisibility=visibility;lastMode=mode;
   if(!p.enabled){light.target.position.set(0,0,0);light.position.copy(sun).multiplyScalar(1000);return;}
   const minimumInterval=edition==='ultra'?(p.local?200:350):(p.local?85:170);
-  const moved=lastPos.distanceToSquared(rover.position)>(p.local?.10:.25)**2||lastRot.angleTo(rover.quaternion)>.08;
+  const moved=lastPos.distanceToSquared(rover.position)>(p.local?.10:.25)**2||lastRot.angleTo(rover.quaternion)>.08||(rover.userData.poseRevision??0)!==lastTruckPose;
   const sunChanged=lastSun.distanceToSquared(sun)>1e-8;
   const refresh=structural||((moved||sunChanged)&&now-lastRefresh>=minimumInterval);
   if(refresh){
@@ -44,7 +44,7 @@ export function createSunShadows(renderer,light,scene,qualityEl,statsEl,terrainM
    target.copy(p.local?rover.position:new THREE.Vector3());
    light.target.position.copy(target);light.position.copy(target).addScaledVector(sun,1000);
    light.shadow.needsUpdate=true;renderer.shadowMap.needsUpdate=true;
-   lastSun.copy(sun);lastPos.copy(rover.position);lastRot.copy(rover.quaternion);lastRefresh=now;
+   lastSun.copy(sun);lastPos.copy(rover.position);lastRot.copy(rover.quaternion);lastTruckPose=rover.userData.poseRevision??0;lastRefresh=now;
    renderer.domElement.dataset.shadowRevision=String(++revision);
   }else{
    // Keep direct illumination synchronized as sliders move; the cached shadow

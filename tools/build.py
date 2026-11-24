@@ -15,6 +15,21 @@ def download(name, dest):
         shutil.copyfileobj(response, out, 1024 * 1024)
     tmp.replace(dest)
 
+def truck_asset():
+    # CC0 original rig-ready monster truck; exact source binary pinned by hash.
+    path = CACHE / 'monster-truck.glb'
+    checksum = '0d8f272006245a54656bea5de7b44b0f535ec6d761f64a0044d8d88f2d2c9380'
+    def valid(p):
+        return p.is_file() and p.stat().st_size == 1277496 and hashlib.sha256(p.read_bytes()).hexdigest() == checksum
+    if not valid(path):
+        temp = path.with_suffix('.partial')
+        request = urllib.request.Request('https://grab3d.com/dl/monster-truck/monster-truck.glb', headers={'User-Agent': 'Bennu-Rover-build'})
+        with urllib.request.urlopen(request, timeout=120) as response, temp.open('wb') as out: shutil.copyfileobj(response, out)
+        if not valid(temp): raise ValueError('Monster truck asset hash mismatch')
+        temp.replace(path)
+    if inspect_model(path) != 19973: raise ValueError('Monster truck triangle count mismatch')
+    return path
+
 def landmark_assets():
     catalog = json.loads((ROOT / 'landmark-manifest.json').read_text())
     folder = CACHE / 'landmarks'
@@ -72,6 +87,7 @@ def main():
             if image.size != (31417,15709): raise ValueError(f'Unexpected mosaic dimensions: {image.size}')
             image.convert('L').resize((args.texture,args.texture//2),Image.Resampling.LANCZOS).save(texture, quality=92, optimize=True)
     landmarks = landmark_assets()
+    truck = truck_asset()
     bundle = (CACHE/'app.js').read_text()
     html = (ROOT/'src/index.html').read_text()
     first, last = html.split('<!-- EMBED -->')
@@ -83,6 +99,7 @@ def main():
         embed(out, model, 'bennu-model')
         embed(out, texture, 'bennu-texture')
         for name, path in landmarks: embed(out, path, 'landmark-' + name)
+        embed(out, truck, 'monster-truck-model')
         out.write('<script>'+bundle.replace('</script','<\\/script')+'</script>\n')
         out.write(last)
     print(f'{dest}: {dest.stat().st_size/1024**2:.1f} MiB; {triangles:,} triangles; {args.texture}px imagery')

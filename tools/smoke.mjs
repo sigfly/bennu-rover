@@ -11,6 +11,8 @@ try{
  await page.waitForFunction(()=>window.BENNU_READY===true,{},{timeout:180000});
  await page.waitForFunction(()=>document.querySelector('#radius').textContent!=='—');
  assert.equal(await page.locator('button[data-mode].active').getAttribute('data-mode'),'orbit');
+ assert.equal(await page.locator('#suspensionGrid progress').count(),4);
+ for(let i=0;i<4;i++){const n=await page.locator('#suspension'+i).evaluate(e=>e.value);assert.ok(Number.isFinite(n)&&n>=0&&n<=100);}
  const shadowRevision=()=>page.locator('canvas').getAttribute('data-shadow-revision').then(Number);
  await page.waitForFunction(()=>Number(document.querySelector('canvas').dataset.shadowRevision)>0);
  let revision=await shadowRevision();
@@ -62,8 +64,10 @@ try{
  await page.locator('#fossilToggle').check();assert.equal(await page.locator('#landmarkToggle').isChecked(),false);await page.locator('#landmarkToggle').check();assert.equal(await page.locator('#fossilToggle').isChecked(),false);assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
  await page.locator('#landmarkReset').click();assert.equal(await page.locator('#landmarkCounter').textContent(),'0/20 found');await page.locator('#landmarkToggle').uncheck();
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent.includes('Local'));await page.locator('[data-mode=chase]').click();
+ const suspensionBefore=await page.locator('#suspensionGrid progress').evaluateAll(es=>es.map(e=>e.value));
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
  await page.waitForFunction(()=>document.querySelector('#lat').textContent.startsWith('15.0000'));
+ await page.waitForFunction(before=>Array.from(document.querySelectorAll('#suspensionGrid progress')).some((e,i)=>Math.abs(e.value-before[i])>.1),suspensionBefore);
  await page.locator('#reset').click();await page.waitForFunction(()=>document.querySelector('#lat').textContent==='0.0000°');
  await page.locator('canvas').focus();await page.keyboard.down('w');
  try{await page.waitForFunction(()=>parseFloat(document.querySelector('#distance').textContent)>0.05,{},{timeout:60000});}finally{await page.keyboard.up('w');}

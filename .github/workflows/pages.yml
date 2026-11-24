@@ -32,7 +32,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - name: Test all embedded architectural assets
-        run: node --test tools/landmarks.test.mjs
+        run: node --test tools/landmarks.test.mjs tools/monster.test.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
