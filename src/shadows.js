@@ -16,7 +16,10 @@ export function createSunShadows(renderer,light,scene,qualityEl,statsEl,terrainM
  let profileKey='',lastRefresh=-Infinity,revision=0,previousVisibility='',lastMode='';
  const target=new THREE.Vector3();
  function configure(p){
-  renderer.shadowMap.enabled=p.enabled;light.castShadow=p.enabled;terrainMaterial.needsUpdate=true;
+  renderer.shadowMap.enabled=p.enabled;light.castShadow=p.enabled;
+  // A single depth comparison is much cheaper on integrated/mobile graphics.
+  renderer.shadowMap.type=p.resolution>2048?THREE.PCFSoftShadowMap:THREE.BasicShadowMap;
+  terrainMaterial.needsUpdate=true;
   if(!p.enabled){if(light.shadow.map){light.shadow.map.dispose();light.shadow.map=null;}statsEl.textContent='Cast shadows off';return;}
   const s=light.shadow;
   if(s.mapSize.x!==p.resolution||s.mapSize.y!==p.resolution){if(s.map){s.map.dispose();s.map=null;}s.mapSize.set(p.resolution,p.resolution);}

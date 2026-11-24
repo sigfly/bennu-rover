@@ -87,6 +87,11 @@ async function start(){
   if(enabled&&mode==='orbit'){camera.position.setLength(Math.max(camera.position.length(),980));controls.update();}
  });
  teleport(0,0);setMode('orbit');$('loader').remove();window.addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
+ // Avoid drawing millions of unchanged triangles continuously while parked.
+ let renderRequested=true,lastWorld='',lastCamera=V(1e8,0,0),lastRover=V(1e8,0,0),lastCameraRot=new THREE.Quaternion(),lastRoverRot=new THREE.Quaternion();
+ const requestRender=()=>{renderRequested=true;};
+ for(const event of ['input','change','click'])document.addEventListener(event,requestRender);
+ renderer.domElement.addEventListener('pointerup',requestRender);window.addEventListener('resize',requestRender);
  let prev=performance.now();const basis=new THREE.Matrix4(),right=V(),forward=V(),up=V();
  function tick(now){const dt=Math.min(.045,(now-prev)/1000);prev=now;const steer=Number(keys.has('a'))-Number(keys.has('d'));heading.applyAxisAngle(radial,steer*1.05*dt).addScaledVector(radial,-heading.dot(radial)).normalize();const throttle=Number(keys.has('w'))-Number(keys.has('s'));const limit=Number($('speedlimit').value);const target=keys.has(' ')?0:throttle*limit;velocity+=(target-velocity)*(1-Math.exp(-dt*(keys.has(' ')?14:4)));
   if(Math.abs(velocity)>.005){const candidate=radial.clone().addScaledVector(heading,velocity*dt/surface.length()).normalize();const hit=groundAt(candidate);if(hit){const travel=hit.point.distanceTo(surface);const climb=hit.normal.angleTo(candidate)*180/Math.PI;if(travel<Math.max(.35,Math.abs(velocity*dt)*4)&&climb<76&&(!landmarkHunt.obstructed(hit.point)||landmarkHunt.obstructed(surface))){surface.copy(hit.point);normal.lerp(hit.normal,.3).normalize();radial.copy(candidate);distance+=travel;status='Driving · surface adhesion';}else{velocity=0;status='Obstacle / steep slope · turn or reverse';}}else{velocity=0;status='Terrain gap · choose another direction';}}else if(!throttle)status='Stationary · measured terrain';
@@ -95,7 +100,11 @@ async function start(){
   ambient.intensity=quality.value==='off'?1.3:.65;
   sunShadows.update({now,mode,sun:sunlight,rover,landmarks:landmarkHunt.root.visible,fossils:fossilHunt.root.visible,edition:window.BENNU_CONFIG.edition});
   if(mode==='orbit'){controls.update();}else{const eye=surface.clone().addScaledVector(up,mode==='cockpit'?1.6:3.1).addScaledVector(forward,mode==='cockpit'?.38:-5.4);const look=surface.clone().addScaledVector(up,mode==='cockpit'?1.3:.65).addScaledVector(forward,mode==='cockpit'?12:2);camera.position.copy(eye);camera.up.copy(up);camera.lookAt(look);}
-  const g=vectorToGeo(radial);$('lat').textContent=g.lat.toFixed(4)+'°';$('lon').textContent=g.lon.toFixed(4)+'°';$('speed').textContent=Math.abs(velocity).toFixed(2)+' m/s';$('distance').textContent=distance.toFixed(1)+' m';$('radius').textContent=surface.length().toFixed(1)+' m';$('slope').textContent=slope.toFixed(1)+'°';$('status').textContent=status;renderer.render(scene,camera);requestAnimationFrame(tick);
+  const g=vectorToGeo(radial);$('lat').textContent=g.lat.toFixed(4)+'°';$('lon').textContent=g.lon.toFixed(4)+'°';$('speed').textContent=Math.abs(velocity).toFixed(2)+' m/s';$('distance').textContent=distance.toFixed(1)+' m';$('radius').textContent=surface.length().toFixed(1)+' m';$('slope').textContent=slope.toFixed(1)+'°';$('status').textContent=status;const world=String(landmarkHunt.root.visible)+String(fossilHunt.root.visible);
+  if(renderRequested||world!==lastWorld||(renderer.shadowMap.enabled&&renderer.shadowMap.needsUpdate)||camera.position.distanceToSquared(lastCamera)>1e-9||camera.quaternion.angleTo(lastCameraRot)>1e-6||rover.position.distanceToSquared(lastRover)>1e-9||rover.quaternion.angleTo(lastRoverRot)>1e-6){
+   renderer.render(scene,camera);renderRequested=false;lastWorld=world;lastCamera.copy(camera.position);lastCameraRot.copy(camera.quaternion);lastRover.copy(rover.position);lastRoverRot.copy(rover.quaternion);
+  }
+  requestAnimationFrame(tick);
  }
  requestAnimationFrame(tick);window.BENNU_READY=true;
 }

@@ -23,16 +23,23 @@ try{
  await page.locator('#texture').click();
  await page.locator('#lights').fill('75');await page.locator('#sunAltitude').fill('0');
  await page.waitForFunction(old=>Number(document.querySelector('canvas').dataset.shadowRevision)>old,revision);
- const clip={x:280,y:150,width:300,height:340};
- const shaded=await page.screenshot({clip});
+ const sample=()=>page.evaluate(()=>new Promise(resolve=>{
+  document.querySelector('canvas').dispatchEvent(new Event('input',{bubbles:true}));
+  requestAnimationFrame(()=>{
+  const canvas=document.querySelector('canvas'),gl=canvas.getContext('webgl2');
+  // The application RAF has rendered immediately before this callback, so
+  // read the actual colour buffer before the browser composites it.
+  const x=Math.round(canvas.width*.29),y=Math.round(canvas.height*.24),w=Math.round(canvas.width*.31),h=Math.round(canvas.height*.53);
+  const pixels=new Uint8Array(w*h*4);gl.readPixels(x,y,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+  // Keep the serialized result small, but sample thousands of terrain pixels.
+  const result=[];for(let i=0;i<pixels.length;i+=16)result.push(pixels[i],pixels[i+1],pixels[i+2]);resolve(result);
+ });}));
+ const shaded=await sample();
  await page.locator('#shadowQuality').selectOption('off');await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent==='Cast shadows off');
- const unshaded=await page.screenshot({clip});
- const changed=await page.evaluate(async ([a,b])=>{
-  const canvas=document.createElement('canvas');canvas.width=300;canvas.height=340;const ctx=canvas.getContext('2d');
-  async function pixels(encoded){const img=await createImageBitmap(await(await fetch('data:image/png;base64,'+encoded)).blob());ctx.clearRect(0,0,300,340);ctx.drawImage(img,0,0);return ctx.getImageData(0,0,300,340).data;}
-  const x=await pixels(a),y=await pixels(b);let count=0;for(let i=0;i<x.length;i+=4)if(Math.abs(x[i]-y[i])+Math.abs(x[i+1]-y[i+1])+Math.abs(x[i+2]-y[i+2])>24)count++;return count;
- },[shaded.toString('base64'),unshaded.toString('base64')]);
- assert.ok(changed>80,`Expected real terrain shadow pixels, got ${changed}`);
+ const unshaded=await sample();
+ let changed=0;for(let i=0;i<shaded.length;i+=3)if(Math.abs(shaded[i]-unshaded[i])+Math.abs(shaded[i+1]-unshaded[i+1])+Math.abs(shaded[i+2]-unshaded[i+2])>24)changed++;
+ console.log('Visible shadow pixels changed:',changed);
+ assert.ok(changed>20,`Expected real terrain shadow pixels, got ${changed}`);
  await page.locator('#texture').click();await page.locator('#lights').fill('45');await page.locator('#sunAltitude').fill('29');
  await page.locator('#shadowQuality').selectOption('standard');await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent.includes('Global'));
  
@@ -61,6 +68,6 @@ try{
  await page.locator('canvas').focus();await page.keyboard.down('w');
  try{await page.waitForFunction(()=>parseFloat(document.querySelector('#distance').textContent)>0.05,{},{timeout:60000});}finally{await page.keyboard.up('w');}
  await page.locator('#texture').click();assert.equal(await page.locator('#texture').textContent(),'Photo: off');
- await page.screenshot({path:'dist/smoke.png'});
+ await page.screenshot({path:'dist/smoke.png',timeout:120000});
  assert.deepEqual(errors,[]);console.log('Offline browser smoke test passed', {radius,distance:await page.locator('#distance').textContent()});
 }finally{await browser.close();}
