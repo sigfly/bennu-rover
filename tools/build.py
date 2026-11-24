@@ -16,16 +16,19 @@ def download(name, dest):
     tmp.replace(dest)
 
 def truck_asset():
-    # CC0 original rig-ready monster truck; exact source binary pinned by hash.
+    # Original CC0 GLB is vendored in bounded binary parts so builds never
+    # depend on the asset host. Reassemble losslessly and verify the full hash.
     path = CACHE / 'monster-truck.glb'
     checksum = '0d8f272006245a54656bea5de7b44b0f535ec6d761f64a0044d8d88f2d2c9380'
     def valid(p):
         return p.is_file() and p.stat().st_size == 1277496 and hashlib.sha256(p.read_bytes()).hexdigest() == checksum
     if not valid(path):
+        parts = [ROOT / 'assets' / 'monster-truck' / f'part-{i:02d}.bin' for i in range(26)]
         temp = path.with_suffix('.partial')
-        request = urllib.request.Request('https://grab3d.com/dl/monster-truck/monster-truck.glb', headers={'User-Agent': 'Bennu-Rover-build'})
-        with urllib.request.urlopen(request, timeout=120) as response, temp.open('wb') as out: shutil.copyfileobj(response, out)
-        if not valid(temp): raise ValueError('Monster truck asset hash mismatch')
+        with temp.open('wb') as out:
+            for part in parts:
+                with part.open('rb') as inp: shutil.copyfileobj(inp, out)
+        if not valid(temp): raise ValueError('Vendored monster truck asset hash mismatch')
         temp.replace(path)
     if inspect_model(path) != 19973: raise ValueError('Monster truck triangle count mismatch')
     return path
