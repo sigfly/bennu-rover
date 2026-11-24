@@ -6,6 +6,7 @@ on:
       - 'src/**'
       - 'tools/**'
       - 'package*.json'
+      - 'landmark-manifest.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
@@ -30,6 +31,8 @@ jobs:
       - run: pip install Pillow==11.3.0
       - run: npm test
       - run: npm run build
+      - name: Test all embedded architectural assets
+        run: node --test tools/landmarks.test.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

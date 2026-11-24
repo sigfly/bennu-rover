@@ -1,5 +1,5 @@
 """Produce a single self-contained HTML document from NASA SVS source products."""
-import argparse, base64, pathlib, urllib.request, shutil, json, struct
+import argparse, base64, pathlib, urllib.request, shutil, json, struct, hashlib, concurrent.futures
 from PIL import Image
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -14,6 +14,28 @@ def download(name, dest):
     with urllib.request.urlopen(BASE + name, timeout=180) as response, tmp.open('wb') as out:
         shutil.copyfileobj(response, out, 1024 * 1024)
     tmp.replace(dest)
+
+def landmark_assets():
+    catalog = json.loads((ROOT / 'landmark-manifest.json').read_text())
+    folder = CACHE / 'landmarks'
+    folder.mkdir(exist_ok=True)
+    base = 'https://raw.githubusercontent.com/codriver-io/codriver-3d-assets/' + catalog['upstream'] + '/'
+    def get(entry):
+        dest = folder / (entry['id'] + '.glb')
+        def valid(path):
+            if not path.exists() or path.stat().st_size != entry['bytes']: return False
+            return hashlib.sha256(path.read_bytes()).hexdigest() == entry['sha256']
+        if not valid(dest):
+            temp = dest.with_suffix('.partial')
+            request = urllib.request.Request(base + entry['path'], headers={'User-Agent': 'Bennu-Rover-build'})
+            with urllib.request.urlopen(request, timeout=120) as response, temp.open('wb') as out:
+                shutil.copyfileobj(response, out)
+            if not valid(temp): raise ValueError('Landmark hash mismatch: ' + entry['id'])
+            temp.replace(dest)
+        if inspect_model(dest) != entry['triangles']: raise ValueError('Landmark triangle count mismatch: ' + entry['id'])
+        return entry['id'], dest
+    with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+        return list(pool.map(get, catalog['models']))
 
 def inspect_model(path):
     with path.open('rb') as f:
@@ -49,6 +71,7 @@ def main():
         with Image.open(mosaic) as image:
             if image.size != (31417,15709): raise ValueError(f'Unexpected mosaic dimensions: {image.size}')
             image.convert('L').resize((args.texture,args.texture//2),Image.Resampling.LANCZOS).save(texture, quality=92, optimize=True)
+    landmarks = landmark_assets()
     bundle = (CACHE/'app.js').read_text()
     html = (ROOT/'src/index.html').read_text()
     first, last = html.split('<!-- EMBED -->')
@@ -59,6 +82,7 @@ def main():
         out.write(f'<script>window.BENNU_CONFIG={json.dumps(dict(edition=args.edition, triangles=triangles, texture=args.texture))};</script>\n')
         embed(out, model, 'bennu-model')
         embed(out, texture, 'bennu-texture')
+        for name, path in landmarks: embed(out, path, 'landmark-' + name)
         out.write('<script>'+bundle.replace('</script','<\\/script')+'</script>\n')
         out.write(last)
     print(f'{dest}: {dest.stat().st_size/1024**2:.1f} MiB; {triangles:,} triangles; {args.texture}px imagery')

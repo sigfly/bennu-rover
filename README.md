@@ -21,6 +21,10 @@ The specimens are original procedural reconstructions, not 3D scans, archaeologi
 
 References: [Smithsonian Carnegie Quarry excavation photograph](https://www.si.edu/object/close-skeleton-dinosaur-national-monument-quarry%3Asiris_arc_367764), [USGS Dinosaur Quarry photo](https://www.usgs.gov/media/images/dinosaur-national-monument-dinosaur-quarry-1), [NPS Quarry Exhibit Hall](https://www.nps.gov/dino/planyourvisit/quarry-exhibit-hall.htm), [NPS 2025 excavation](https://www.nps.gov/dino/learn/news/parkinglotfossilsexcavated.htm), and [Natural History Museum Dino Directory](https://www.nhm.ac.uk/discover/dino-directory.html). Individual taxon reference pages and measured lengths are listed in [FOSSILS.md](FOSSILS.md).
 
+## Optional expedition: architectural landmark hunt
+
+Enable **Architectural landmark hunt** to explore twenty detailed, metre-scale world landmarks on Bennu, including the Eiffel Tower, Colosseum, Notre-Dame, Arc de Triomphe, Nidaros Cathedral, Lincoln Memorial and Belém Tower. The original licensed meshes are monochrome and use terrain-connected stone foundations. Click them to turn green, reveal unfound buildings with Expose, and complete the independent 20/20 collection for a noir finale. The fossil and architectural modes are mutually exclusive; each retains separate progress. [Model catalog, sources and credit](LANDMARKS.md).
+
 ## Data and editions
 
 | Edition | Source shape | Embedded imagery | Typical use |

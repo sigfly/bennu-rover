@@ -21,6 +21,14 @@ try{
  await page.locator('#fossilToggle').check();assert.equal(await page.locator('#fossilCounter').textContent(),'1/20 found');
  await page.locator('#fossilExpose').click();assert.equal(await page.locator('#fossilExpose').getAttribute('aria-pressed'),'false');
  await page.locator('#fossilReset').click();assert.equal(await page.locator('#fossilCounter').textContent(),'0/20 found');await page.locator('#fossilToggle').uncheck();
+ await page.locator('#landmarkToggle').check();await page.waitForFunction(()=>document.querySelector('#landmarkMessage').textContent.startsWith('Orbit or drive'),{},{timeout:180000});
+ assert.equal(await page.locator('#landmarkCounter').textContent(),'0/20 found');
+ await page.locator('#landmarkExpose').click();assert.equal(await page.locator('#landmarkExpose').getAttribute('aria-pressed'),'true');
+ // The first landmark is near the initial orbital view; click the building, not its foundation.
+ for(const [x,y] of [[460,315],[465,320],[470,325],[475,330],[470,315],[480,320],[455,325],[460,330],[470,335],[480,335],[490,320],[490,335]]){await page.mouse.click(x,y);if((await page.locator('#landmarkCounter').textContent())!=='0/20 found')break;}
+ assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
+ await page.locator('#fossilToggle').check();assert.equal(await page.locator('#landmarkToggle').isChecked(),false);await page.locator('#landmarkToggle').check();assert.equal(await page.locator('#fossilToggle').isChecked(),false);assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
+ await page.locator('#landmarkReset').click();assert.equal(await page.locator('#landmarkCounter').textContent(),'0/20 found');await page.locator('#landmarkToggle').uncheck();
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.locator('[data-mode=chase]').click();
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
  await page.waitForFunction(()=>document.querySelector('#lat').textContent.startsWith('15.0000'));

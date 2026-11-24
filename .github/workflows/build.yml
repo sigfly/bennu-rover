@@ -36,6 +36,8 @@ jobs:
           EDITION: ${{ matrix.edition }}
           TEXTURE: ${{ matrix.texture }}
         run: python tools/build.py --edition "$EDITION" --texture "$TEXTURE"
+      - name: Test all embedded architectural assets
+        run: node --test tools/landmarks.test.mjs
       - uses: actions/upload-artifact@v4
         with:
           name: bennu-rover-${{ matrix.edition }}-${{ matrix.texture }}

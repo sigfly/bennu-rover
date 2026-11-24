@@ -1,0 +1,507 @@
+{
+  "upstream": "e9619339dd3d74d81cb87302e4692082e0c3dbff",
+  "license": "CC BY 4.0",
+  "source": "https://github.com/codriver-io/codriver-3d-assets",
+  "models": [
+    {
+      "id": "paris-arc-de-triomphe",
+      "name": "Arc de Triomphe",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/paris-icons-geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Architectural exterior approximation; see per-asset documentation for published dimensions and estimated details.",
+      "triangles": 28096,
+      "bytes": 243264,
+      "path": "public/models/buildings/paris-arc-de-triomphe-near.glb",
+      "bounds": {
+        "min": [
+          -20.463586297046312,
+          0,
+          -25.885000232694864
+        ],
+        "max": [
+          20.463586297046312,
+          50.25,
+          25.885000232694864
+        ]
+      },
+      "sha256": "a272c125040716c460add1e96dde6d3429e623baf0ede95cd1dbe2ae3a2214ae"
+    },
+    {
+      "id": "paris-tour-eiffel",
+      "name": "Tour Eiffel",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/paris-icons-geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Architectural exterior approximation; see per-asset documentation for published dimensions and estimated details.",
+      "triangles": 54128,
+      "bytes": 619584,
+      "path": "public/models/buildings/paris-tour-eiffel-near.glb",
+      "bounds": {
+        "min": [
+          -88.38057192404301,
+          0,
+          -88.38057192404301
+        ],
+        "max": [
+          88.38057192404301,
+          330,
+          88.38057192404301
+        ]
+      },
+      "sha256": "25d39e18a104b3d3d6c6a2d2d45589d4694fd60aa43fa0b7fc2a0ff189e69b16"
+    },
+    {
+      "id": "arctic-cathedral",
+      "name": "Arctic Cathedral",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/arctic-cathedral/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "35 m west gable and eleven paired aluminium-clad slabs; mapped bay footprints and OSM height progression. Panel section, cladding joints, mullions and cross estimated. East glass is an original abstract colour pattern, not a reproduction of Victor Sparre’s artwork. Cityscape and Full 3D world not tested yet; integration checked separately.",
+      "triangles": 12640,
+      "bytes": 239320,
+      "path": "public/models/buildings/arctic-cathedral-near.glb",
+      "bounds": {
+        "min": [
+          -10.334138870239258,
+          0,
+          -7.728194713592529
+        ],
+        "max": [
+          36.046897888183594,
+          35,
+          45.66236877441406
+        ]
+      },
+      "sha256": "af51562bb8aaa02aefb49e750460ea9dac0c2c9f328534f21fc9753d64733141"
+    },
+    {
+      "id": "flatiron-building",
+      "name": "Gooderham (Flatiron) Building",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/toronto/flatiron-building/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Wedge outline, 16.7 m cornice and 5 storeys are published or mapped; turret height, bay count, window sizes, fire-escape and dormer positions are estimated from photographs. The west gable end is not photographed and is drawn plainly. The neighbouring mural is not part of the model.",
+      "triangles": 32865,
+      "bytes": 469452,
+      "path": "public/models/buildings/flatiron-building-near.glb",
+      "bounds": {
+        "min": [
+          -18.034908294677734,
+          -5.9604645663569045e-9,
+          -11.286018371582031
+        ],
+        "max": [
+          21.741498947143555,
+          26,
+          12.877947807312012
+        ]
+      },
+      "sha256": "3d6693a37882a5a880963d81df77dfe871a06e1a33931aebf81c4d97c5c40d01"
+    },
+    {
+      "id": "borgund-stave-church",
+      "name": "Borgund Stave Church",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/borgund-stave-church/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Conserved Borgund stavkyrkje, c.1180–1200. Mapped plan and 76° eastward nave axis; 20 m overall height and roof heights, gallery openings, timber and simplified dragon carving dimensions estimated from photographs. Separate bell tower and newer church excluded. Cityscape and Full 3D world not tested yet; integration is checked separately.",
+      "triangles": 29264,
+      "bytes": 418312,
+      "path": "public/models/buildings/borgund-stave-church-near.glb",
+      "bounds": {
+        "min": [
+          -8.029427528381348,
+          -4.172325152040912e-9,
+          -5.4546799659729
+        ],
+        "max": [
+          8.44591236114502,
+          19.950000762939453,
+          6.2115983963012695
+        ]
+      },
+      "sha256": "9d9b831f2e36fa67a093d754bcc561d3aa76d8351614c0c8c28cab720571ebac"
+    },
+    {
+      "id": "colosseum",
+      "name": "Colosseum",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/colosseum/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Plan and height are Platner’s surveyed ellipse (188 × 156 m, 48.50 m), rotated to the mapped outer arc (bearing 106°). The replacement ring is the actual OSM multipolygon outline; south-side steps follow the surviving inner wall. The south-west outer wall is the ruin as it stands, without the modern scaffolding. Both LODs retain engaged shafts, capitals, projected entablatures and the northern inner arcade openings. Order geometry retains crisp normals and a subdued weathered stone tone. Far smooth normals compact wall vertices; concealed corridor-facing outer arcade skins and hidden backing walls and sparse hypogeum detail are simplified. Inner radii, the hypogeum grid and the colours are estimates from photographs.",
+      "triangles": 31560,
+      "bytes": 434280,
+      "path": "public/models/buildings/colosseum-near.glb",
+      "bounds": {
+        "min": [
+          -83.22486114501953,
+          0,
+          -81.86155700683594
+        ],
+        "max": [
+          95.36430358886719,
+          48.5,
+          66.8139419555664
+        ]
+      },
+      "sha256": "00f2a7291085ece67def4507ab3cc7811b71ea8799a54b237e9fa9f2ac27d8d7"
+    },
+    {
+      "id": "maison-carree-nimes",
+      "name": "Maison Carrée de Nîmes",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/maison-carree-nimes/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Raised Roman temple with six free-standing front Corinthian columns, a deep open pronaos, thirty fluted free/engaged shafts, a single broad access stair and triangular pediments. Official rounded width of 15 m includes a broader envelope than the 13.54 m architectural body; the model uses the narrower body and wider cornice. Published 17 and 17.1 m heights are rounded to 17 m. The mapped northern stair projection is retained. Capitals are simplified leaf-like profiles, not traced ornament; no lettering. Cityscape: not tested. Full 3D world: not tested.",
+      "triangles": 7864,
+      "bytes": 91492,
+      "path": "public/models/buildings/maison-carree-nimes-near.glb",
+      "bounds": {
+        "min": [
+          -9.54337215423584,
+          -4.2915345943583816e-8,
+          -16.029386520385742
+        ],
+        "max": [
+          10.529626846313477,
+          17,
+          17.179092407226562
+        ]
+      },
+      "sha256": "d2b8eff5d0c784d67864686977bf4112917352c8f55ec41957966333b53a81f6"
+    },
+    {
+      "id": "atomium",
+      "name": "Atomium",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/atomium/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Nine 18 m spheres, a regular 47 m body-centred cube standing on one corner, twenty 3.3 m tubes; supports, windows and pavilion height are photo estimates. Cityscape and Full 3D world not tested yet; integration is checked separately.",
+      "triangles": 16464,
+      "bytes": 158312,
+      "path": "public/models/buildings/atomium-near.glb",
+      "bounds": {
+        "min": [
+          -47.369171142578125,
+          -5.9604645663569045e-9,
+          -42.57271957397461
+        ],
+        "max": [
+          47.369171142578125,
+          102,
+          42.57271957397461
+        ]
+      },
+      "sha256": "8967ea795be6ed9db3bf9a08ef6da93580d5db705df1e90a30b75e969e2f4e7e"
+    },
+    {
+      "id": "griffith-observatory",
+      "name": "Griffith Observatory",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/griffith-observatory/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Mapped footprint and 30-foot solar dome diameter; 75-foot planetarium dimension is INTERNAL, exterior dome estimated 24.8 m. Above-entrance height estimated 23.2 m; OSM height=35.9 is not adopted because its datum is unspecified. Astronomers Monument concrete height 35 feet. Wall heights, pilasters, windows, dome seams, bronze grilles and promenade are photo estimates; no underground extension, landscaping or hill. Runtime terrain contacts and replacement require separate QA.",
+      "triangles": 28650,
+      "bytes": 340796,
+      "path": "public/models/buildings/griffith-observatory-near.glb",
+      "bounds": {
+        "min": [
+          -36.50552749633789,
+          -1.1920929132713809e-8,
+          -31.5
+        ],
+        "max": [
+          35.782161712646484,
+          23.273345947265625,
+          47.95241928100586
+        ]
+      },
+      "sha256": "749b879ddf303f4c953f01ea54724fefdbf83f850d78269f1b7900743e0d0c8b"
+    },
+    {
+      "id": "brandenburg-gate",
+      "name": "Brandenburg Gate",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/brandenburg-gate/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "1791 gate with later portico wings; dimensions from visitBerlin and mapped OSM parts. Quadriga, relief, Doric details and wing roof pitches are original simplified estimates. Rotation is baked once; Cityscape and Full 3D world integration are checked separately.",
+      "triangles": 33936,
+      "bytes": 326464,
+      "path": "public/models/buildings/brandenburg-gate-near.glb",
+      "bounds": {
+        "min": [
+          -8.886921882629395,
+          -9.536743306171047e-8,
+          -33.26558303833008
+        ],
+        "max": [
+          26.83397674560547,
+          25.967527389526367,
+          33.228416442871094
+        ]
+      },
+      "sha256": "1483b99707550da8a076eaecaa9c105dff4f8816f1b70f5c93e93043c69cc095"
+    },
+    {
+      "id": "belem-tower",
+      "name": "Belém Tower",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/belem-tower/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "30 m four-storey lioz tower; mapped 12.1 m core and bastion outline. Terrace, arch, turret and ornament dimensions estimated from photographs. Cityscape and Full 3D world not tested yet; integration is checked separately.",
+      "triangles": 17909,
+      "bytes": 194900,
+      "path": "public/models/buildings/belem-tower-near.glb",
+      "bounds": {
+        "min": [
+          -19.69865538611997,
+          -4.7683716530855236e-8,
+          -10.936101192341365
+        ],
+        "max": [
+          15.351315930521512,
+          30,
+          37.61488727466363
+        ]
+      },
+      "sha256": "0ad468d9dec1571f3815364e1be38550c737c1ac18e71c57e7892e1c80e980a7"
+    },
+    {
+      "id": "frauenkirche-munich",
+      "name": "Frauenkirche",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/frauenkirche-munich/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Published tower tips 98.57 / 98.45 m; plan 109 × 40 m. OSM roof/eaves 60 / 30 m. Battered tower tiers, belfry arcades, glazing, dome profile and dormers are photo-estimated. Orientation baked once, 1.154 degrees north of east. Both placement modes require separate app verification.",
+      "triangles": 14776,
+      "bytes": 181616,
+      "path": "public/models/buildings/frauenkirche-munich-near.glb",
+      "bounds": {
+        "min": [
+          -53.89628982543945,
+          0,
+          -26.23596954345703
+        ],
+        "max": [
+          56.38237762451172,
+          98.56999969482422,
+          21.059249877929688
+        ]
+      },
+      "sha256": "57450a9ef6dcb79d6d4954e96d955e94154ec16ee8cd6bb709deefd43aa82f6c"
+    },
+    {
+      "id": "nidaros-cathedral",
+      "name": "Nidaros Cathedral",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/nidaros-cathedral/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Heights follow Store norske leksikon (102 × 50 m, nave vault 21 m, tower and spire 87 m after the 2016 survey) and the OSM Simple 3D eaves. The copper spire ends at 84 m and a cross carries the tip to 87 m; OSM tags the copper at 82 m. West-front statues are relief bands, not the restored portrait set. Bay count is the seven mapped aisle nibs. The chapter house is a hall with an east apse, not the real miniature cruciform plan. No terrain pad: the terrace under the footprint varies by less than 2 m.",
+      "triangles": 38724,
+      "bytes": 414340,
+      "path": "public/models/buildings/nidaros-cathedral-near.glb",
+      "bounds": {
+        "min": [
+          -48.85986328125,
+          -3.814697322468419e-7,
+          -24.744686126708984
+        ],
+        "max": [
+          51.23622512817383,
+          87,
+          25.071760177612305
+        ]
+      },
+      "sha256": "b8dc534f34dfa634b029ab7a519de866d0cb42fc5353044d153ec461c06d8add"
+    },
+    {
+      "id": "church-of-our-saviour-copenhagen",
+      "name": "Church of Our Saviour",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/church-of-our-saviour-copenhagen/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Permanent post1996 spire and existing church envelope are modeled. The owner reports facade/sandstone restoration2026–28 and temporary north-side scaffolding; temporary scaffolding is omitted. Photos2 and4 show the present permanent restored spire and church, and3 verifies the exterior stair/railing;1 is a panorama and5–6 interiors, not exterior geometry references. Globe heights follow mapped82.5–85 m; Lex prose also describes the globe at90 m but explicitly identifies90 m as flag top later in the same article. Minor trim, clocks, sculpture poses and stair radii are photo-calibrated estimates; the mapped stair angle/height progression is retained. Cityscape: not tested. Full 3D world: not tested.",
+      "triangles": 22033,
+      "bytes": 290336,
+      "path": "public/models/buildings/church-of-our-saviour-copenhagen-near.glb",
+      "bounds": {
+        "min": [
+          -11.0547456741333,
+          0,
+          -37.89334487915039
+        ],
+        "max": [
+          36.04562759399414,
+          90,
+          10.39728832244873
+        ]
+      },
+      "sha256": "d699071c105b1a023f21f39b6d7e6c894b50ddb1a85bebb79fe9b80c7af8f798"
+    },
+    {
+      "id": "paris-notre-dame",
+      "name": "Notre-Dame de Paris",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/paris-icons-geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Architectural exterior approximation; see per-asset documentation for published dimensions and estimated details.",
+      "triangles": 38243,
+      "bytes": 399188,
+      "path": "public/models/buildings/paris-notre-dame-near.glb",
+      "bounds": {
+        "min": [
+          -71.98893263800883,
+          0,
+          -52.788337541836064
+        ],
+        "max": [
+          71.64912679192696,
+          96,
+          52.61824962464679
+        ]
+      },
+      "sha256": "c1d9ada380d3d160e757e470cbfa71c50c0600b273c6d4d2e75b0fdb6b8fe49a"
+    },
+    {
+      "id": "helsinki-cathedral",
+      "name": "Helsinki Cathedral",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/helsinki-cathedral/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Photo-calibrated highest cross 55 m above terrace, 62.2 m above stair foot; OSM 61 m height tag is retained as a differing reference, not a surveyed dimension. Stairs, Corinthian capitals and apostle silhouettes approximated; rotation baked once. Cityscape and Full 3D world not tested yet.",
+      "triangles": 17748,
+      "bytes": 237256,
+      "path": "public/models/buildings/helsinki-cathedral-near.glb",
+      "bounds": {
+        "min": [
+          -42.354759216308594,
+          0,
+          -38.569583892822266
+        ],
+        "max": [
+          44.63774108886719,
+          62.20000076293945,
+          57.99264907836914
+        ]
+      },
+      "sha256": "71203797fea20aec96b19543c797eb2324f531c149cb9ec2898f4fe095d0a7aa"
+    },
+    {
+      "id": "jefferson-memorial",
+      "name": "Jefferson Memorial",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/jefferson-memorial/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "NPS 54 columns, 43 ft column height, 102 ft portico, 19 ft statue; historic booklet 91 ft 8 in interior ceiling plus estimated 4 ft exterior shell. Grade-to-floor, drum tiers, dome curvature, ornaments and interior wall thickness estimated; inscriptions omitted. Mapped rotation baked once. Cityscape and Full 3D world integration not tested yet.",
+      "triangles": 42132,
+      "bytes": 379552,
+      "path": "public/models/buildings/jefferson-memorial-near.glb",
+      "bounds": {
+        "min": [
+          -44.51536178588867,
+          -3.973643103449831e-8,
+          -51.46818542480469
+        ],
+        "max": [
+          45.199947357177734,
+          33.15919876098633,
+          44.34956359863281
+        ]
+      },
+      "sha256": "d0cc762a4fdd03f84cc84617718cf56af4d49cb817d26680a7d98bcd3bc66b2a"
+    },
+    {
+      "id": "paris-sacre-coeur",
+      "name": "Sacré-Cœur",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/paris-icons-geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "Architectural exterior approximation; see per-asset documentation for published dimensions and estimated details.",
+      "triangles": 32608,
+      "bytes": 372700,
+      "path": "public/models/buildings/paris-sacre-coeur-near.glb",
+      "bounds": {
+        "min": [
+          -28.83145370179801,
+          -1.9073486612342094e-7,
+          -49.79232825465438
+        ],
+        "max": [
+          28.83145370179801,
+          84,
+          49.79232825465438
+        ]
+      },
+      "sha256": "cc68aeda7fe13644a3ada42c412f1b7217346c76055f1f0db78930d6d2d8f108"
+    },
+    {
+      "id": "lincoln-memorial",
+      "name": "Lincoln Memorial",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/lincoln-memorial/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "NPS dimensions for height, colonnade, columns and statue. Estimated vertical tier split, chamber wall details, reliefs and roof framing; inscriptions omitted. Rotation baked once from OSM. Daytime visual integration is recorded separately in the landmark documentation.",
+      "triangles": 36742,
+      "bytes": 303992,
+      "path": "public/models/buildings/lincoln-memorial-near.glb",
+      "bounds": {
+        "min": [
+          -28.220836639404297,
+          -9.536743306171047e-8,
+          -40.07511901855469
+        ],
+        "max": [
+          79.71246337890625,
+          30.175199508666992,
+          38.88380432128906
+        ]
+      },
+      "sha256": "b8b6111c4c03076442e59fb44ae3f09d62545b7767763a1fd7ebf6f707994039"
+    },
+    {
+      "id": "capitol-records-building",
+      "name": "Capitol Records Building",
+      "source": "https://github.com/codriver-io/codriver-3d-assets/blob/main/src/peregrine/landmarks/top-cities/capitol-records-building/geometry.js",
+      "license": "CC-BY-4.0",
+      "attribution": "Codriver; geographic placement © OpenStreetMap contributors",
+      "copyright": "© 2026 Codriver (original commissioned model)",
+      "note": "150 ft roof and 82 ft rooftop spire follow City heritage description; sources disagree (Conservancy says 90 ft spire; Wikipedia labels 46 m as antenna height). 92 ft upper floor diameter sourced; outer sunshades mapped/photo calibrated. Podium height, crown, floor spacing, lettering, doors and facade divisions estimated. Static beacon, no Morse animation; mural, interiors and flag omitted.",
+      "triangles": 15430,
+      "bytes": 157136,
+      "path": "public/models/buildings/capitol-records-building-near.glb",
+      "bounds": {
+        "min": [
+          -15.399999618530273,
+          -4.7683716530855236e-8,
+          -23.037673950195312
+        ],
+        "max": [
+          20.79034996032715,
+          70.71399688720703,
+          32.28836441040039
+        ]
+      },
+      "sha256": "fd91cf88bfc0d8eff84faeb0b8bad3f824bfc7965c402ee7308ca284f4ecd8e2"
+    }
+  ]
+}
