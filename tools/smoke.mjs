@@ -14,7 +14,9 @@ try{
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.locator('[data-mode=chase]').click();
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
  await page.waitForFunction(()=>document.querySelector('#lat').textContent.startsWith('15.0000'));
- await page.locator('canvas').click();await page.keyboard.down('w');await page.waitForTimeout(1800);await page.keyboard.up('w');
+ await page.locator('#reset').click();await page.waitForFunction(()=>document.querySelector('#lat').textContent==='0.0000°');
+ await page.locator('canvas').focus();await page.keyboard.down('w');
+ try{await page.waitForFunction(()=>parseFloat(document.querySelector('#distance').textContent)>0.05,{},{timeout:60000});}finally{await page.keyboard.up('w');}
  await page.locator('#texture').click();assert.equal(await page.locator('#texture').textContent(),'Photo: off');
  await page.screenshot({path:'dist/smoke.png'});
  assert.deepEqual(errors,[]);console.log('Offline browser smoke test passed', {radius,distance:await page.locator('#distance').textContent()});
