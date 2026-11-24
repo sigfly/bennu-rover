@@ -1,0 +1,52 @@
+name: Build offline rover
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: Measured mesh edition
+        type: choice
+        options: [standard, ultra]
+        default: standard
+      texture:
+        description: Embedded image width
+        type: choice
+        options: ['4096', '8192', '16384']
+        default: '8192'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: pip install Pillow==11.3.0
+      - run: npm test
+      - run: node tools/bundle.mjs
+      - name: Assemble standalone HTML
+        env:
+          EDITION: ${{ inputs.edition || 'standard' }}
+          TEXTURE: ${{ inputs.texture || '8192' }}
+        run: python tools/build.py --edition "$EDITION" --texture "$TEXTURE"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bennu-rover-${{ inputs.edition || 'standard' }}-${{ inputs.texture || '8192' }}
+          path: dist/index.html
+          compression-level: 1
+      - name: Install browser
+        if: ${{ inputs.edition != 'ultra' }}
+        run: npx playwright install --with-deps chromium
+      - name: Offline browser smoke test
+        if: ${{ inputs.edition != 'ultra' }}
+        run: node tools/smoke.mjs
