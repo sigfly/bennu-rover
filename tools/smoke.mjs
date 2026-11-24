@@ -10,6 +10,7 @@ try{
  await page.goto(pathToFileURL(resolve('dist/index.html')).href,{timeout:180000,waitUntil:'load'});
  await page.waitForFunction(()=>window.BENNU_READY===true,{},{timeout:180000});
  await page.waitForFunction(()=>document.querySelector('#radius').textContent!=='—');
+ assert.equal(await page.locator('button[data-mode].active').getAttribute('data-mode'),'orbit');
  const radius=parseFloat(await page.locator('#radius').textContent());assert.ok(radius>170&&radius<310,`Unexpected radius ${radius}`);
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.locator('[data-mode=chase]').click();
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
