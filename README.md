@@ -25,6 +25,10 @@ References: [Smithsonian Carnegie Quarry excavation photograph](https://www.si.e
 
 Enable **Architectural landmark hunt** to explore twenty detailed, metre-scale world landmarks on Bennu, including the Eiffel Tower, Colosseum, Notre-Dame, Arc de Triomphe, Nidaros Cathedral, Lincoln Memorial and Belém Tower. The original licensed meshes are monochrome and use terrain-connected stone foundations. Click them to turn green, reveal unfound buildings with Expose, and complete the independent 20/20 collection for a noir finale. The fossil and architectural modes are mutually exclusive; each retains separate progress. [Model catalog, sources and credit](LANDMARKS.md).
 
+## Real-time solar shadows
+
+The Sun azimuth and elevation controls steer one directional light. The measured asteroid mesh, the rover, fossils, architectural meshes and their foundations cast and receive live depth-map shadows. Soft filtering reduces jagged edges; shadow maps are cached and updated when Sun direction, rover pose, camera scope or expedition visibility changes. Orbit mode covers the entire asteroid (and tall landmarks); cockpit/chase modes use a finer 84 m shadow region around the rover. A 2 km light-space depth range includes distant occluders. High selects up to 4096² texels; Standard 2048²; Off turns off cast shadows. Low-memory/touch devices default to Standard. Very fine features can still be below the global map resolution; local mode is more detailed. The photograph retains baked-in original scene shadows; use **Photo: off** to inspect purely dynamic lighting. An ambient fill keeps deep shadows readable, rather than physically black.
+
 ## Data and editions
 
 | Edition | Source shape | Embedded imagery | Typical use |

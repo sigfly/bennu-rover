@@ -115,7 +115,7 @@ export function createFossilHunt(scene,ground,groundAt,camera,canvas,ui){
     p.setXYZ(j,world.x,world.y,world.z);
    }
    p.needsUpdate=true;geo.computeVertexNormals();geo.computeBoundingBox();geo.computeBoundingSphere();
-   const mesh=new THREE.Mesh(geo,mat);mesh.name=d.name;mesh.userData={...d,index:i};root.add(mesh);objects.push(mesh);
+   const mesh=new THREE.Mesh(geo,mat);mesh.castShadow=true;mesh.receiveShadow=true;mesh.name=d.name;mesh.userData={...d,index:i};root.add(mesh);objects.push(mesh);
   });
   initialized=true;root.updateMatrixWorld(true);
  }

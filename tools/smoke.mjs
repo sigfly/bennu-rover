@@ -11,6 +11,31 @@ try{
  await page.waitForFunction(()=>window.BENNU_READY===true,{},{timeout:180000});
  await page.waitForFunction(()=>document.querySelector('#radius').textContent!=='—');
  assert.equal(await page.locator('button[data-mode].active').getAttribute('data-mode'),'orbit');
+ const shadowRevision=()=>page.locator('canvas').getAttribute('data-shadow-revision').then(Number);
+ await page.waitForFunction(()=>Number(document.querySelector('canvas').dataset.shadowRevision)>0);
+ let revision=await shadowRevision();
+ await page.locator('#shadowQuality').selectOption('standard');
+ await page.waitForFunction(old=>Number(document.querySelector('canvas').dataset.shadowRevision)>old,revision);
+ assert.match(await page.locator('#shadowStats').textContent(),/Global/);
+ // Raster regression: with the same untextured rock and grazing Sun, the live
+ // depth map must alter visible terrain pixels, not merely the UI.
+ revision=await shadowRevision();
+ await page.locator('#texture').click();
+ await page.locator('#lights').fill('75');await page.locator('#sunAltitude').fill('0');
+ await page.waitForFunction(old=>Number(document.querySelector('canvas').dataset.shadowRevision)>old,revision);
+ const clip={x:280,y:150,width:300,height:340};
+ const shaded=await page.screenshot({clip});
+ await page.locator('#shadowQuality').selectOption('off');await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent==='Cast shadows off');
+ const unshaded=await page.screenshot({clip});
+ const changed=await page.evaluate(async ([a,b])=>{
+  const canvas=document.createElement('canvas');canvas.width=300;canvas.height=340;const ctx=canvas.getContext('2d');
+  async function pixels(encoded){const img=await createImageBitmap(await(await fetch('data:image/png;base64,'+encoded)).blob());ctx.clearRect(0,0,300,340);ctx.drawImage(img,0,0);return ctx.getImageData(0,0,300,340).data;}
+  const x=await pixels(a),y=await pixels(b);let count=0;for(let i=0;i<x.length;i+=4)if(Math.abs(x[i]-y[i])+Math.abs(x[i+1]-y[i+1])+Math.abs(x[i+2]-y[i+2])>24)count++;return count;
+ },[shaded.toString('base64'),unshaded.toString('base64')]);
+ assert.ok(changed>80,`Expected real terrain shadow pixels, got ${changed}`);
+ await page.locator('#texture').click();await page.locator('#lights').fill('45');await page.locator('#sunAltitude').fill('29');
+ await page.locator('#shadowQuality').selectOption('standard');await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent.includes('Global'));
+ 
  const radius=parseFloat(await page.locator('#radius').textContent());assert.ok(radius>170&&radius<310,`Unexpected radius ${radius}`);
  await page.locator('#fossilToggle').check();await page.waitForFunction(()=>document.querySelector('#fossilPanel').hidden===false,{},{timeout:180000});assert.equal(await page.locator('#fossilCounter').textContent(),'0/20 found');
  await page.locator('#fossilExpose').click();assert.equal(await page.locator('#fossilExpose').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#fossilCounter').textContent(),'0/20 found');
@@ -29,7 +54,7 @@ try{
  assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
  await page.locator('#fossilToggle').check();assert.equal(await page.locator('#landmarkToggle').isChecked(),false);await page.locator('#landmarkToggle').check();assert.equal(await page.locator('#fossilToggle').isChecked(),false);assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
  await page.locator('#landmarkReset').click();assert.equal(await page.locator('#landmarkCounter').textContent(),'0/20 found');await page.locator('#landmarkToggle').uncheck();
- await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.locator('[data-mode=chase]').click();
+ await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent.includes('Local'));await page.locator('[data-mode=chase]').click();
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();
  await page.waitForFunction(()=>document.querySelector('#lat').textContent.startsWith('15.0000'));
  await page.locator('#reset').click();await page.waitForFunction(()=>document.querySelector('#lat').textContent==='0.0000°');

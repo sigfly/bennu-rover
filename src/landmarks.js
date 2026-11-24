@@ -28,7 +28,7 @@ export async function parseLandmark(bytes,info){
   // The GLB data use real metres; preserve the mesh and full source transforms.
   for(let i=0;i<p.count;i++){temp.fromBufferAttribute(p,i).applyMatrix4(obj.matrixWorld);if(temp.y<Math.max(1,size.y*.014))footPoints.push([temp.x,temp.z]);}
   if(geom.attributes.color){const col=geom.attributes.color;for(let i=0;i<col.count;i++){const l=.2126*col.getX(i)+.7152*col.getY(i)+.0722*col.getZ(i);col.setXYZ(i,l,l,l);}col.needsUpdate=true;}
-  const normal=Array.isArray(obj.material)?obj.material.map(gray):gray(obj.material);obj.material=normal;obj.userData.landmarkId=info.id;obj.userData.normalMaterial=normal;list.push(obj);
+  const normal=Array.isArray(obj.material)?obj.material.map(gray):gray(obj.material);obj.material=normal;obj.userData.landmarkId=info.id;obj.userData.normalMaterial=normal;obj.castShadow=true;obj.receiveShadow=true;list.push(obj);
  });
  // Convex ground envelope avoids a giant square pedestal under a rotated or rounded building.
  let footprint=hull(footPoints);if(footprint.length<3)footprint=[[-size.x/2,-size.z/2],[size.x/2,-size.z/2],[size.x/2,size.z/2],[-size.x/2,size.z/2]];
@@ -89,7 +89,7 @@ export function placeLandmark(asset,index,groundAt,occupied=[]){
   vertex(a[0],-.06,a[1],.20);vertex(bb[0],yb,bb[1],.13);vertex(b[0],-.06,b[1],.20);
  }
  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geo.computeVertexNormals();
- const foundation=new THREE.Mesh(geo,lightGray);foundation.name='Terrain-connected stone foundation';group.add(foundation);group.updateMatrixWorld(true);
+ const foundation=new THREE.Mesh(geo,lightGray);foundation.castShadow=true;foundation.receiveShadow=true;foundation.name='Terrain-connected stone foundation';group.add(foundation);group.updateMatrixWorld(true);
  const bounds=new THREE.Box3().setFromObject(group);return {...asset,foundation,dir,origin,top,perimeter,edgeHeights,worldBounds:bounds};
 }
 export function createLandmarkHunt(scene,ground,groundAt,camera,canvas,ui,decode,onMode=()=>{}){
