@@ -5,6 +5,7 @@ import {MeshBVH, acceleratedRaycast} from 'three-mesh-bvh';
 import {geoToVector, vectorToGeo, clamp} from './terrain.js';
 import {createFossilHunt} from './fossils.js';
 import {createLandmarkHunt} from './landmarks.js';
+import {createFaceHunt,faceUniforms,faceShader} from './faces.js';
 import {createSunShadows} from './shadows.js';
 import {createMonsterTruck} from './monster.js';
 
@@ -23,9 +24,10 @@ async function start(){
  await stage('Decoding the OSIRIS-REx photographic mosaic…');const {map,width}=await textureFrom(decode('bennu-texture'),renderer);
  const sunlight=V(1,.7,.4).normalize();
  // Preserve the original calibrated image/slope look and sample the renderer's native directional shadow map.
+ const portraitUniforms=faceUniforms();
  const terrainMaterial=new THREE.ShaderMaterial({
   side:THREE.DoubleSide,lights:true,
-  uniforms:{...THREE.UniformsUtils.clone(THREE.UniformsLib.lights),photo:{value:map},showPhoto:{value:1},offset:{value:0},sun:{value:sunlight}},
+  uniforms:{...THREE.UniformsUtils.clone(THREE.UniformsLib.lights),photo:{value:map},showPhoto:{value:1},offset:{value:0},sun:{value:sunlight},...portraitUniforms},
   vertexShader:`
    #include <common>
    #include <shadowmap_pars_vertex>
@@ -45,6 +47,7 @@ async function start(){
    #include <shadowmask_pars_fragment>
    varying vec3 p; varying vec3 n;
    uniform sampler2D photo; uniform float showPhoto; uniform float offset; uniform vec3 sun;
+   ${faceShader}
    void main(){
     vec3 d=normalize(p);
     float u=fract(atan(-d.z,d.x)/6.28318530718+offset);
@@ -53,7 +56,7 @@ async function start(){
     vec3 base=mix(vec3(0.28,0.29,0.30),max(tex*1.7,vec3(.035)),showPhoto);
     float direct=max(dot(normalize(n),sun),0.0);
     float light=.22+.78*direct*getShadowMask();
-    gl_FragColor=vec4(base*light,1.0);
+    gl_FragColor=vec4(faceProjection(base*light,p,light),1.0);
     #include <colorspace_fragment>
    }`
  });
@@ -73,16 +76,17 @@ async function start(){
  document.querySelectorAll('[data-key]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);keys.add(b.dataset.key);});for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>keys.delete(b.dataset.key));});
  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));$('go').onclick=()=>{const a=Number($('targetLat').value),b=Number($('targetLon').value);if(Number.isFinite(a)&&Number.isFinite(b))teleport(a,b);};$('reset').onclick=()=>teleport(0,0);$('nightingale').onclick=()=>teleport(56,42.2);$('osprey').onclick=()=>teleport(11.3,88.8);$('texture').onclick=()=>{photo=!photo;terrainMaterial.uniforms.showPhoto.value=Number(photo);$('texture').textContent=`Photo: ${photo?'on':'off'}`;};$('offset').oninput=e=>terrainMaterial.uniforms.offset.value=Number(e.target.value)/360;$('toggle').onclick=()=>{$('panel').hidden=!$('panel').hidden;};
  $('data').textContent=`${window.BENNU_CONFIG.edition.toUpperCase()} · ${window.BENNU_CONFIG.triangles.toLocaleString()} measured-model triangles · ${width.toLocaleString()} × ${width/2} photographic pixels · offline. NASA / University of Arizona / CSA / York University / MDA.`;
- const fossilToggle=$('fossilToggle'),landmarkToggle=$('landmarkToggle');
- // Expeditions are exclusive, but retain independent discovery progress.
- fossilToggle.addEventListener('change',()=>{if(fossilToggle.checked&&landmarkToggle.checked){landmarkToggle.checked=false;landmarkToggle.dispatchEvent(new Event('change'));}});
- landmarkToggle.addEventListener('change',()=>{if(landmarkToggle.checked&&fossilToggle.checked){fossilToggle.checked=false;fossilToggle.dispatchEvent(new Event('change'));}});
+ const fossilToggle=$('fossilToggle'),landmarkToggle=$('landmarkToggle'),faceToggle=$('faceToggle');
+ // Only one hunt is visible, and each keeps independent discovery progress.
+ const toggles=[fossilToggle,landmarkToggle,faceToggle];
+ for(const toggle of toggles)toggle.addEventListener('change',()=>{if(toggle.checked)for(const other of toggles)if(other!==toggle&&other.checked){other.checked=false;other.dispatchEvent(new Event('change'));}});
  const fossilHunt=createFossilHunt(scene,ground,groundAt,camera,renderer.domElement,{toggle:$('fossilToggle'),panel:$('fossilPanel'),counter:$('fossilCounter'),progress:$('fossilProgress'),message:$('fossilMessage'),list:$('fossilList'),reset:$('fossilReset'),expose:$('fossilExpose'),finale:$('fossilFinale'),close:$('fossilClose')});
  const hemisphere=scene.children.find(o=>o.isHemisphereLight);
  const landmarkHunt=createLandmarkHunt(scene,ground,groundAt,camera,renderer.domElement,{toggle:landmarkToggle,panel:$('landmarkPanel'),counter:$('landmarkCounter'),progress:$('landmarkProgress'),message:$('landmarkMessage'),list:$('landmarkList'),reset:$('landmarkReset'),expose:$('landmarkExpose'),finale:$('landmarkFinale'),close:$('landmarkClose')},decode,enabled=>{
   dirLight.color.setHex(0xffffff);hemisphere.color.setHex(0xffffff);hemisphere.groundColor.setHex(0x373737);
   if(enabled&&mode==='orbit'){camera.position.setLength(Math.max(camera.position.length(),980));controls.update();}
  });
+ createFaceHunt(ground,groundAt,camera,renderer.domElement,{toggle:faceToggle,panel:$('facePanel'),counter:$('faceCounter'),progress:$('faceProgress'),message:$('faceMessage'),list:$('faceList'),reset:$('faceReset'),expose:$('faceExpose'),finale:$('faceFinale'),close:$('faceClose')},portraitUniforms,decode);
  teleport(0,0);setMode('orbit');$('loader').remove();window.addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();});
  // Avoid drawing millions of unchanged triangles continuously while parked.
  let renderRequested=true,lastTruckPose=-1,lastWorld='',lastCamera=V(1e8,0,0),lastRover=V(1e8,0,0),lastCameraRot=new THREE.Quaternion(),lastRoverRot=new THREE.Quaternion();

@@ -35,6 +35,10 @@ All four wheel contacts independently sample the actual NASA triangle mesh, with
 
 The Sun azimuth and elevation controls steer one directional light. The measured asteroid mesh, the rover, fossils, architectural meshes cast and receive live depth-map shadows. High uses soft filtering, while Standard uses a lower-cost hard shadow comparison; idle scenes are rendered on demand, and shadow maps are cached and updated when Sun direction, rover pose, camera scope or expedition visibility changes. Orbit mode covers the entire asteroid (and tall landmarks); cockpit/chase modes use a finer 84 m shadow region around the rover. A 2 km light-space depth range includes distant occluders. High selects up to 4096² texels; Standard 2048²; Off turns off cast shadows. Low-memory/touch devices default to Standard. Very fine features can still be below the global map resolution; local mode is more detailed. The photograph retains baked-in original scene shadows; use **Photo: off** to inspect purely dynamic lighting. An ambient fill keeps deep shadows readable, rather than physically black.
 
+## Face hunt
+
+Enable **Face hunt** under Expedition to look for eleven user-supplied monochrome portraits. Each image keeps its aspect ratio within an approximately 30 × 30 m downward projection onto the actual Bennu mesh. Transparent borders blend into the rock and real-time relief is retained. Click a face to turn it green, track 11/11, or use Expose for yellow highlighting. Face, fossil, and architectural hunts preserve independent progress. The grayscale portraits are embedded at build time and work offline.
+
 ## Data and editions
 
 | Edition | Source shape | Embedded imagery | Typical use |

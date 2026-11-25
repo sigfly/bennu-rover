@@ -63,6 +63,15 @@ try{
  assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
  await page.locator('#fossilToggle').check();assert.equal(await page.locator('#landmarkToggle').isChecked(),false);await page.locator('#landmarkToggle').check();assert.equal(await page.locator('#fossilToggle').isChecked(),false);assert.equal(await page.locator('#landmarkCounter').textContent(),'1/20 found');
  await page.locator('#landmarkReset').click();assert.equal(await page.locator('#landmarkCounter').textContent(),'0/20 found');await page.locator('#landmarkToggle').uncheck();
+ await page.locator('#faceToggle').check();await page.waitForFunction(()=>document.querySelector('#faceMessage').textContent.startsWith('Orbit or drive'),{},{timeout:180000});
+ assert.equal(await page.locator('#faceCounter').textContent(),'0/11 found');
+ await page.locator('#faceExpose').click();assert.equal(await page.locator('#faceExpose').getAttribute('aria-pressed'),'true');
+ // Jump to orbit startup direction and select the central projected portrait.
+ await page.locator('[data-mode=orbit]').click();
+ for(const [x,y] of [[480,320],[480,323],[480,317],[475,320],[485,320],[476,325],[484,325],[480,330]]){await page.mouse.click(x,y);if((await page.locator('#faceCounter').textContent())!=='0/11 found')break;}
+ assert.equal(await page.locator('#faceCounter').textContent(),'1/11 found');
+ await page.locator('#fossilToggle').check();assert.equal(await page.locator('#faceToggle').isChecked(),false);await page.locator('#faceToggle').check();assert.equal(await page.locator('#fossilToggle').isChecked(),false);assert.equal(await page.locator('#faceCounter').textContent(),'1/11 found');
+ await page.locator('#faceReset').click();assert.equal(await page.locator('#faceCounter').textContent(),'0/11 found');await page.locator('#faceToggle').uncheck();
  await page.locator('[data-mode=orbit]').click();await page.locator('[data-mode=cockpit]').click();await page.waitForFunction(()=>document.querySelector('#shadowStats').textContent.includes('Local'));await page.locator('[data-mode=chase]').click();
  const suspensionBefore=await page.locator('#suspensionGrid progress').evaluateAll(es=>es.map(e=>e.value));
  await page.locator('#targetLat').fill('15');await page.locator('#targetLon').fill('60');await page.locator('#go').click();

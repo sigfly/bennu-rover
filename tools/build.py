@@ -103,6 +103,7 @@ def main():
         embed(out, texture, 'bennu-texture')
         for name, path in landmarks: embed(out, path, 'landmark-' + name)
         embed(out, truck, 'monster-truck-model')
+        for i in range(11): embed(out, ROOT / 'assets' / 'faces' / f'{i:02d}.webp', f'face-{i}')
         out.write('<script>'+bundle.replace('</script','<\\/script')+'</script>\n')
         out.write(last)
     print(f'{dest}: {dest.stat().st_size/1024**2:.1f} MiB; {triangles:,} triangles; {args.texture}px imagery')
