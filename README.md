@@ -37,7 +37,7 @@ The Sun azimuth and elevation controls steer one directional light. The measured
 
 ## Face hunt
 
-Enable **Face hunt** under Expedition to look for eleven user-supplied monochrome portraits. Each image keeps its aspect ratio within an approximately 30 × 30 m downward projection onto the actual Bennu mesh. Transparent borders blend into the rock and real-time relief is retained. Click a face to turn it green, track 11/11, or use Expose for yellow highlighting. Face, fossil, and architectural hunts preserve independent progress. The grayscale portraits are embedded at build time and work offline.
+Enable **Face hunt** under Expedition to look for eleven user-supplied monochrome portraits. Each image keeps its aspect ratio within an approximately 20 × 20 m translucent downward projection onto the actual Bennu mesh. Transparent borders blend into the rock and real-time relief is retained. Click a face to turn it green, track 11/11, or use Expose for yellow highlighting. Face, fossil, and architectural hunts preserve independent progress. The grayscale portraits are embedded at build time and work offline.
 
 ## Data and editions
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const FACE_COUNT=11,FACE_SIZE=30,TILE=384,COLS=4,ROWS=3;
+export const FACE_COUNT=11,FACE_SIZE=20,TILE=384,COLS=4,ROWS=3;
 const v=(x=0,y=0,z=0)=>new THREE.Vector3(x,y,z);
 export function faceDirections(){
  const y0=1-1/FACE_COUNT,r0=Math.sqrt(1-y0*y0),rotation=new THREE.Quaternion().setFromUnitVectors(v(r0,y0,0),v(1,.16,0).normalize());
@@ -34,7 +34,7 @@ vec3 faceProjection(vec3 rock, vec3 point, float light){
  for(int i=0;i<11;i++){
   vec3 delta=point-faceCenters[i];
   if(abs(dot(delta,faceNormals[i]))>42.0)continue;
-  vec2 q=vec2(dot(delta,faceRights[i]),-dot(delta,faceUps[i]))/30.0+0.5;
+  vec2 q=vec2(dot(delta,faceRights[i]),-dot(delta,faceUps[i]))/${FACE_SIZE.toFixed(1)}+0.5;
   if(q.x<0.0||q.y<0.0||q.x>1.0||q.y>1.0)continue;
   vec2 cell=vec2(mod(float(i),4.0),floor(float(i)/4.0));
   vec4 image=texture2D(faceAtlas,vec2((cell.x+q.x)/4.0,1.0-(cell.y+q.y)/3.0));
@@ -46,7 +46,7 @@ vec3 faceProjection(vec3 rock, vec3 point, float light){
   vec3 projected=vec3(luminance);
   if(faceFound[i]>.5)projected=vec3(.03,.55+.40*gray,.09);
   else if(faceExpose>.5)projected=vec3(.95,.84+.15*gray,.025);
-  rock=mix(rock,projected,image.a*(faceExpose>.5||faceFound[i]>.5?.94:.86));
+  rock=mix(rock,projected,image.a*(faceExpose>.5||faceFound[i]>.5?.94:.46));
  }
  return rock;
 }
