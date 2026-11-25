@@ -31,6 +31,10 @@ uniform vec3 faceNormals[11];
 uniform float faceFound[11];
 vec3 faceProjection(vec3 rock, vec3 point, float light){
  if(faceMode<0.5)return rock;
+ // Increase projection strength on high-contrast gravel, but keep smoother areas subtle.
+ float rockLuma=dot(rock,vec3(.2126,.7152,.0722));
+ float busy=smoothstep(.025,.14,fwidth(rockLuma));
+ float normalOpacity=mix(.54,.72,busy);
  for(int i=0;i<11;i++){
   vec3 delta=point-faceCenters[i];
   if(abs(dot(delta,faceNormals[i]))>42.0)continue;
@@ -42,11 +46,11 @@ vec3 faceProjection(vec3 rock, vec3 point, float light){
   // Projected light has some brightness even on the night side, but preserves
   // the rock's microtexture and real-time relief rather than looking like paper.
   float detail=clamp(dot(rock,vec3(.333)),0.0,1.0);
-  float luminance=(.055+.79*gray)*(.66+.25*light)+.12*detail;
+  float luminance=(.065+.80*gray)*(.72+.22*light)+.10*detail;
   vec3 projected=vec3(luminance);
   if(faceFound[i]>.5)projected=vec3(.03,.55+.40*gray,.09);
   else if(faceExpose>.5)projected=vec3(.95,.84+.15*gray,.025);
-  rock=mix(rock,projected,image.a*(faceExpose>.5||faceFound[i]>.5?.94:.46));
+  rock=mix(rock,projected,image.a*(faceExpose>.5||faceFound[i]>.5?.94:normalOpacity));
  }
  return rock;
 }
